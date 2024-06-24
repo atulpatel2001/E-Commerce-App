@@ -1,3 +1,6 @@
+/**
+ * Product Model
+ */
 export default interface Product {
   _id: string;
   name: string;

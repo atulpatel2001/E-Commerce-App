@@ -1,4 +1,7 @@
-
+/**
+ * Home Component
+ * @returns 
+ */
 
 const Home:React.FC=()=>{
    return (

@@ -1,25 +1,29 @@
+/**
+ * NavBar Component
+ */
+
 import React from 'react';
 import { AppBar, Toolbar, Typography, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { getToken } from '../services/CookiesService';
-import axios from 'axios';
 import { logOut } from '../services/authService';
-import { RootState, AppDispatch } from '../redux/store';
+import { RootState } from '../redux/store';
 
 import { logout } from '../redux/UserSlice';
 
 const Navbar: React.FC = () => {
-  const token:string | undefined = getToken();
-  const dispatch = useDispatch<AppDispatch>();
+  const token: string | undefined = getToken();
   const { isLoggedIn } = useSelector((state: RootState) => state.user);
 
-  console.log(token);
+  /**
+   * Logout Request Handle call Logout api
+   */
 
-  const handleLogout =async () => {
+  const handleLogout = async () => {
     logOut(token);
     logout();
-  
+
   };
 
   return (

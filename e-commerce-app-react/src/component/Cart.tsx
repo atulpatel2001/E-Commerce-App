@@ -1,26 +1,43 @@
-// component/Cart.tsx
+/**
+ * Cart Component Show Cart Information 
+ */
 
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../redux/store';
-import { fetchCart, removeItem, updateCartQuantity, clearCart, saveCartToDatabase } from '../redux/CartSlice';
-import { Typography, Card, CardContent, CardActions, Button, Grid, TextField,CardMedia } from '@mui/material';
+import { removeItem, updateCartQuantity, clearCart, saveCartToDatabase } from '../redux/CartSlice';
+import { Typography, Card, CardContent, CardActions, Button, Grid, TextField, CardMedia } from '@mui/material';
 
 const Cart: React.FC = () => {
+
+  //dispatch for cartslice function call
   const dispatch = useDispatch<AppDispatch>();
+  //get cart array from cartslice
   const { items, loading, error } = useSelector((state: RootState) => state.cart);
-  const { isLoggedIn, userId } = useSelector((state: RootState) => state.user);
+  const { isLoggedIn } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
-   
+
   }, [dispatch, isLoggedIn]);
 
+
+  /**
+   * remove a cart using id
+   * @param id 
+   * 
+   */
   const handleRemove = (id: string) => {
     dispatch(removeItem(id));
     if (isLoggedIn) {
       dispatch(saveCartToDatabase());
     }
   };
+
+  /**
+   * change quantity in cart array and also db
+   * @param id 
+   * @param quantity 
+   */
 
   const handleQuantityChange = (id: string, quantity: number) => {
     dispatch(updateCartQuantity({ id, quantity }));
@@ -29,6 +46,9 @@ const Cart: React.FC = () => {
     }
   };
 
+  /**
+   * clear all cart data 
+   */
   const handleClearCart = () => {
     dispatch(clearCart());
     if (isLoggedIn) {
@@ -36,12 +56,17 @@ const Cart: React.FC = () => {
     }
   };
 
-  const handleCheckout =()=>{
+  /**
+   * check out function
+   */
+  const handleCheckout = () => {
     alert(
       "successfully placed order"
     )
     dispatch(clearCart());
   }
+
+  //find total price of cart iteam
   const totalPrice = items.reduce((total, item) => total + item.price * item.quantity, 0);
 
   if (loading) {
@@ -52,7 +77,7 @@ const Cart: React.FC = () => {
     return <div>{error}</div>;
   }
 
- return (
+  return (
     <div>
       <Typography variant="h4" gutterBottom>
         Shopping Cart
@@ -91,7 +116,7 @@ const Cart: React.FC = () => {
         Clear Cart
       </Button>
 
-      {isLoggedIn && items.length>0 ? (
+      {isLoggedIn && items.length > 0 ? (
         <Button variant="contained" color="primary" onClick={handleCheckout}>
           Checkout
         </Button>
