@@ -1,3 +1,7 @@
+/**
+ * Product cart component show single product detail 
+ */
+
 import React from 'react';
 import { Card, CardMedia, CardContent, Typography, CardActions, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
@@ -5,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { addItem } from '../redux/CartSlice';
 import Product from '../models/Product';
 
+//productcard props get products component
 interface ProductCardProps {
   product: Product;
 }
@@ -12,6 +17,9 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const dispatch = useDispatch();
 
+  /**
+   * add to cart fuction ,add product
+   */
   const handleAddToCart = () => {
     dispatch(addItem(product));
   };

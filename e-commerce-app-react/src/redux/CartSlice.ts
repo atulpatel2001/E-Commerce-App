@@ -1,5 +1,6 @@
-// redux/CartSlice.ts
-
+/**
+ * Cart Reducer perform all cart related task
+ */
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { saveCartToDatabase as saveCartToDb, fetchCartFromDatabase } from '../services/CartService'; // Assuming you have a service for API calls
 import Product from '../models/Product';
@@ -16,7 +17,7 @@ interface CartState {
 
 interface RootState {
   cart: CartState;
-  user: { isLoggedIn: boolean; userId: string }; // Assuming you have userId in user state after login
+  user: { isLoggedIn: boolean; userId: string }; 
 }
 
 const initialState: CartState = {
@@ -25,10 +26,13 @@ const initialState: CartState = {
   error: null,
 };
 
+/**
+ * Fetch cart From Database ad store in cart[]
+ */
 export const fetchCart = createAsyncThunk('cart/fetchCart', async (_, { getState }) => {
   const state = getState() as RootState;
   try {
-    const response = await fetchCartFromDatabase(state.user.userId); // Pass userId to fetch cart
+    const response = await fetchCartFromDatabase(state.user.userId); 
     return response.data;
   } catch (error) {
     console.error('Error fetching cart:');
@@ -40,13 +44,16 @@ export const fetchCart = createAsyncThunk('cart/fetchCart', async (_, { getState
 export const saveCartToDatabase = createAsyncThunk('cart/saveCartToDatabase', async (_, { getState }) => {
   const state = getState() as RootState;
   try {
-    await saveCartToDb(state.cart.items); // Pass userId and cart items to save
+    await saveCartToDb(state.cart.items); 
   } catch (error) {
     console.error('Error saving cart:');
     throw error;
   }
 });
 
+/**
+ * create cart slice and perform all action
+ */
 const cartSlice = createSlice({
   name: 'cart',
   initialState,

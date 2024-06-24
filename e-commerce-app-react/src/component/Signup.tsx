@@ -1,3 +1,7 @@
+/**
+ * Signup component in this file user register and save data in backend
+ */
+
 import React, { useState } from 'react';
 import { TextField, Button, Container, Typography, Box } from '@mui/material';
 import { registerUser } from '../services/authService';
@@ -10,12 +14,16 @@ const Signup: React.FC = () => {
   const [phone, setPhone] = useState('');
   const navigate = useNavigate();
 
+  /**
+   * Handle Register Data form react event and call register user function
+   * @param e
+   */
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const response = await registerUser(name, email, password, phone);
       console.log('Registration Successful:', response);
-      navigate('/login'); // Redirect to login page
+      navigate('/login'); 
     } catch (error) {
       console.error('Registration Failed:', error);
     }

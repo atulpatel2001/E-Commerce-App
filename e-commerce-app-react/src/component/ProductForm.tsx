@@ -1,10 +1,14 @@
+/**
+ * Product Form Component Add Product in database
+ */
+
 import React, { useState } from 'react';
 import { Button, TextField, TextareaAutosize, Typography } from '@mui/material'; // Import Material-UI components
-import {createProduct} from '../services/ProductService';
+import { createProduct } from '../services/ProductService';
 import { useNavigate } from 'react-router-dom';
 
 const ProductForm: React.FC = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -14,6 +18,11 @@ const ProductForm: React.FC = () => {
     image: null as File | null,
   });
 
+
+  /**
+   * handle usestate changes data and set in useSate
+   * @param event 
+   */
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
@@ -21,6 +30,10 @@ const ProductForm: React.FC = () => {
     });
   };
 
+  /**
+   * Handle Image Changes data
+   * @param e 
+   */
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       setFormData({
@@ -30,6 +43,11 @@ const ProductForm: React.FC = () => {
     }
   };
 
+  /**
+   * Submit data into database and call service funtion for api call
+   * @param e 
+   * @returns 
+   */
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -40,13 +58,13 @@ const ProductForm: React.FC = () => {
       return;
     }
     console.log(image);
-  
+
     const formDataToSend = new FormData();
     formDataToSend.append('name', name);
     formDataToSend.append('price', price.toString());
     formDataToSend.append('description', description);
     formDataToSend.append('category', category);
-    formDataToSend.append('image', image as File); 
+    formDataToSend.append('image', image as File);
     try {
       const createdProduct = await createProduct(formDataToSend);
       console.log('Product created successfully:', createdProduct);
@@ -78,7 +96,7 @@ const ProductForm: React.FC = () => {
         margin="normal"
       />
       <TextareaAutosize
-        
+
         placeholder="Description"
         name="description"
         value={formData.description}

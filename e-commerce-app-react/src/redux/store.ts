@@ -1,7 +1,9 @@
+/**
+ * Store file register all reducer
+ */
+
 import { configureStore } from '@reduxjs/toolkit';
-
 import cartReducer from './CartSlice';
-
 import userReducer from './UserSlice';
 
 const store = configureStore({

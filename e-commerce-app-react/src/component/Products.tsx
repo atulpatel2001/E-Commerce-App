@@ -1,3 +1,6 @@
+/**
+ * Show list Out all products
+ */
 import React, { useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 import { getAllProducts } from '../services/ProductService';

@@ -1,3 +1,7 @@
+/**
+ * 
+ * Single product detail Component
+ */
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getProductById } from '../services/ProductService';
@@ -21,9 +25,14 @@ const ProductDetails: React.FC = () => {
   });
   const dispatch = useDispatch();
 
+  /**
+   * add to cart fuction ,add product
+   */
   const handleAddToCart = () => {
     dispatch(addItem(product));
   };
+
+  
   useEffect(() => {
     if (id) {
       const fetchProduct = async () => {
