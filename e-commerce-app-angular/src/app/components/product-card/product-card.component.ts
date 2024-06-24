@@ -13,6 +13,6 @@ export class ProductCardComponent {
   constructor(private cartService: CartService) {}
 
   addToCart(): void {
-    //this.cartService.addToCart(this.product);
+    this.cartService.addItemToCart(this.product);
   }
 }

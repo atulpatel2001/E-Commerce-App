@@ -6,8 +6,16 @@
     <button mat-button routerLink="/cart">Cart</button>
     <button mat-button routerLink="/contact">Contact</button>
     <span class="spacer"></span>
-    <button mat-button  (click)="handleLogout()">Logout</button>
+
+
+    <div *ngIf="token">
+      <button mat-button  (click)="handleLogout()">Logout</button>
+    </div>
+
+
+    <div *ngIf="!token">
     <button mat-button  routerLink="/login">Login</button>
     <button mat-button  routerLink="/signup">Sign Up</button>
+  </div>
   </mat-toolbar>
   

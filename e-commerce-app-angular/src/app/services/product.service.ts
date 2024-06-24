@@ -52,6 +52,7 @@ export class ProductService {
    * @returns Product
    */
   getProductById(productId: string): Observable<Product> {
+    console.log(`${this.API_URL}/${productId}`)
     return this.http.get<Product>(`${this.API_URL}/${productId}`).pipe(
       catchError((error) => {
         console.error(`Error fetching product with ID ${productId}:`, error);

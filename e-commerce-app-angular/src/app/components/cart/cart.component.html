@@ -1,0 +1,28 @@
+<div *ngIf="cart.length > 0; else emptyCart" class="cart-container">
+    <div class="cart-items">
+      <div *ngFor="let item of cart" class="cart-item">
+        <div class="cart-item-left">
+          <img class="product-image" [src]="'http://localhost:4000/' + item.image" alt="{{ item.productName }}">
+        </div>
+        <div class="cart-item-right">
+          <div class="product-info">
+            <h4 class="product-name">{{item.productName}}</h4>
+            <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin euismod hendrerit sem, et interdum quam aliquam at.</p>
+            <p class="product-price">${{item.price}}</p>
+          </div>
+          <div class="quantity-control">
+            <button class="decrement-button" (click)="decreaseQuantity(item)">-</button>
+            <span class="quantity">{{item.quantity}}</span>
+            <button class="increment-button" (click)="increaseQuantity(item)">+</button>
+          </div>
+          <button class="remove-button" (click)="removeItem(item.productId)">Remove</button>
+        </div>
+      </div>
+    </div>
+    <button class="checkout-button" mat-raised-button color="primary">Checkout</button>
+  </div>
+  
+  <ng-template #emptyCart>
+    <p class="empty-cart-message">Your cart is empty</p>
+  </ng-template>
+  

@@ -1,19 +1,8 @@
-
-/**
- * Cart Model
- */
-import { Product } from './product.model'
-
-export interface CartItem {
-  product: Product;
-  quantity: number;
-}
-
 export interface Cart {
-  _id?: string;
-  user: string; 
-  items: CartItem[];
-  isPurchased: boolean;
-  createdAt?: Date; 
-  updatedAt?: Date; 
+  productId: string;
+  productName: string;
+  image:string;
+  price: number;
+  quantity: number;
+  userId?:string
 }

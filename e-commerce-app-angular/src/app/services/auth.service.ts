@@ -66,8 +66,22 @@ export class AuthService {
   }
 
 
+  async logOut(): Promise<any> {
+    try {
+      const response = await this.http.get<any>(
+        `${this.API_URL}/logout`,
+        { withCredentials: true }
+      ).toPromise();
+      this.isLoggedIn=false;
+      console.log('Logout successful:', response.message);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
 
   IsLoggedIn=(): boolean=> {
-    return this.isLoggedIn; // Return the current login status
+    return this.isLoggedIn; 
   }
 }

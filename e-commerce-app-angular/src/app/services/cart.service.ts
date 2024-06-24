@@ -1,33 +1,96 @@
-/**
- * in this service define cart related api call ,like add to cart,change quantity
- */
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { Cart } from '../model/cart.model';
-
-const API_URL = 'http://localhost:4000/api/v1/cart/';
+import { Product } from '../model/product.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class CartService {
+  private cartKey = 'cart';
+  private apiUrl = 'http://localhost:4000/api/v1/cart';
+  private cartSubject = new BehaviorSubject<Cart[]>(this.getCartFromLocalStorage());
+  cart$ = this.cartSubject.asObservable();
+
   constructor(private http: HttpClient) {}
 
-  /**
-   * save cart to database throw api calling
-   * @param cartItems
-   */
-  saveCartToDatabase(cartItems: Cart[]): Observable<any> {
-    return this.http.post<any>(`${API_URL}/create`, { cartItems });
+  addItemToCart(product: Product) {
+    const currentCart = this.getCartFromLocalStorage();
+    const existingItem = currentCart.find(item => item.productId === product._id);
+    
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      let newCart:Cart={
+          productId: product._id,
+          productName: product.name,
+          image: product.image,
+          price: product.price,
+          quantity: 1
+      }
+      currentCart.push(newCart);
+    }
+
+    this.saveCartToLocalStorage(currentCart);
+    this.cartSubject.next(currentCart);
   }
 
-  /**
-   * fetch cart data from database but related particular user
-   * @param userId
-   * @returns
-   */
-  fetchCartFromDatabase(userId: string | null): Observable<any> {
-    return this.http.get<any>(`${API_URL}/cart`);
+  getCartFromLocalStorage(): Cart[] {
+    const cart = localStorage.getItem(this.cartKey);
+    return cart ? JSON.parse(cart) : [];
   }
+
+  saveCartToLocalStorage(cart: Cart[]) {
+    localStorage.setItem(this.cartKey, JSON.stringify(cart));
+  }
+
+  clearCart() {
+    localStorage.removeItem(this.cartKey);
+    this.cartSubject.next([]);
+  }
+
+  saveCartToDatabase(userId: string) {
+    const currentCart = this.getCartFromLocalStorage().map(item => ({
+      ...item,
+      userId
+    }));
+    return this.http.post(`${this.apiUrl}/create`, { items: currentCart });
+  }
+
+
+  increaseQuantity(productId: string) {
+    const currentCart = this.getCartFromLocalStorage();
+    const item = currentCart.find(item => item.productId === productId);
+    if (item) {
+      item.quantity += 1;
+      item.price=item.price*item.quantity;
+      this.saveCartToLocalStorage(currentCart);
+      this.cartSubject.next(currentCart);
+    }
+  }
+
+  decreaseQuantity(productId: string) {
+    const currentCart = this.getCartFromLocalStorage();
+    const item = currentCart.find(item => item.productId === productId);
+    if (item && item.quantity > 1) {
+      if(item.quantity <= 0){
+        this.removeItem(productId);
+      }
+      item.quantity -= 1;
+      item.price=item.price*item.quantity;
+      this.saveCartToLocalStorage(currentCart);
+      this.cartSubject.next(currentCart);
+      
+    }
+  }
+
+  removeItem(productId: string) {
+    let currentCart = this.getCartFromLocalStorage();
+    currentCart = currentCart.filter(item => item.productId !== productId);
+    this.saveCartToLocalStorage(currentCart);
+    this.cartSubject.next(currentCart);
+  }
+
+
 }
