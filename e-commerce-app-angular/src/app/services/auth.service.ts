@@ -10,8 +10,18 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AuthService {
   API_URL = 'http://localhost:4000/api/v1/users';
+
+
+  isLoggedIn = false; 
+
   constructor(private http: HttpClient) {}
 
+   requestOptions = {
+    withCredentials: true,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
   /**
    * purpose of this function is register user and store a data in db ,call node js api
    * @param name
@@ -20,11 +30,12 @@ export class AuthService {
    * @param phone
    * @returns response.data
    */
-  async loginUser(email: string, password: string): Promise<any> {
+  async loginUser(email: string | null | undefined, password: string | null | undefined): Promise<any> {
     try {
       const response = await this.http
-        .post<any>(`${this.API_URL}/login`, { email, password })
+        .post<any>(`${this.API_URL}/login`, { email, password },this.requestOptions)
         .toPromise();
+        this.isLoggedIn = true;
       return response;
     } catch (error) {
       throw error;
@@ -45,11 +56,18 @@ export class AuthService {
   ): Promise<any> {
     try {
       const response = await this.http
-        .post<any>(`${this.API_URL}/register`, { name, email, password, phone })
+        .post<any>(`${this.API_URL}/register`, { name, email, password, phone },this.requestOptions)
         .toPromise();
+        this.isLoggedIn = true;
       return response;
     } catch (error) {
       throw error;
     }
+  }
+
+
+
+  IsLoggedIn=(): boolean=> {
+    return this.isLoggedIn; // Return the current login status
   }
 }

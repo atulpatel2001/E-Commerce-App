@@ -43,6 +43,7 @@ export const registerUser = async (
  * @returns response.data.data
  */
 export const loginUser = async (email: string, password: string) => {
+  console.log(email+" "+password)
   const response = await axios.post(
     `${API_URL}/login`,
     { email, password },

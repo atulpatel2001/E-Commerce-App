@@ -1,0 +1,21 @@
+.product-card {
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+  
+  .product-card img {
+    width: 100%;
+    height: auto;
+  }
+  
+  .product-details {
+    padding: 10px;
+  }
+  
+  .actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+  }
+  
