@@ -1,8 +1,12 @@
+/**
+ * Product service class fetch product from db or add product in db
+ */
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Product } from '../model/product.model'; // Adjust the import based on your product model
+import { Product } from '../model/product.model'; 
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +16,11 @@ export class ProductService {
 
   constructor(private http: HttpClient) {}
 
+  /**
+   * create a product and store in databse
+   * @param formData
+   * @returns api response
+   */
   createProduct(formData: FormData): Observable<Product> {
     const headers = new HttpHeaders({ 'Content-Type': 'multipart/form-data' });
     return this.http
@@ -24,6 +33,10 @@ export class ProductService {
       );
   }
 
+  /**
+   * getall product from database
+   * @returns Product[]
+   */
   getAllProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(`${this.API_URL}/all`).pipe(
       catchError((error) => {
@@ -33,6 +46,11 @@ export class ProductService {
     );
   }
 
+  /**
+   * Fetch Product By Id
+   * @param productId
+   * @returns Product
+   */
   getProductById(productId: string): Observable<Product> {
     return this.http.get<Product>(`${this.API_URL}/${productId}`).pipe(
       catchError((error) => {

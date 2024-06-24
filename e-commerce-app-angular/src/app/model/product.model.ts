@@ -1,3 +1,8 @@
+
+/**
+ * Product Model
+ * 
+ */
 export interface Product {
     _id?: string; 
     name: string;

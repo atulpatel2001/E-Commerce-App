@@ -46,26 +46,10 @@ router.route(RouteStrings.ALL_USERS).get(isAuthorized, TryCatch(getAllUsers));
  */
 router.route(RouteStrings.LOGOUT_USER).get(isAuthorized, TryCatch(logOutUser));
 
-// /**
-//  * @Request : GET
-//  * @Route : /api/v1/users/:id
-//  */
-// router
-//   .route(RouteStrings.USER_DETAILS)
-//   .get(isAuthorized, TryCatch(getSingleUser));
-
 /**
  * @Request : PUT
  * @Route : /api/v1/users/:id
  */
 router.route(RouteStrings.UPDATE_USER).put(isAuthorized, TryCatch(updateUser));
-
-// /**
-//  * @Request : DELETE
-//  * @Route : /api/v1/users/:id
-//  */
-// router
-//   .route(RouteStrings.DELETE_USER)
-//   .delete(isAuthorized, TryCatch(deleteUser));
 
 export default router;

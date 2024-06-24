@@ -1,5 +1,12 @@
+/**
+ * db connection file
+ */
 import mongoose from "mongoose";
 
+/**
+ * this is a nodjs connect with mongodb
+ * @param {string} connectionString 
+ */
 export const connectToMongoDb = async (connectionString) => {
   await mongoose
     .connect("mongodb://localhost:27017/ecommercedb")

@@ -31,20 +31,18 @@ export const createCart = async (req, res, next) => {
   return sendResponse(res, true, 201, "Cart created successfully", newCart);
 };
 
-
 /**
  * this function fecth all cart details for particular user
- * @param {*} req 
- * @param {*} res 
- * @param {*} next 
+ * @param {object} req
+ * @param {object} res
+ * @param {Function} next
  * @returns response
  */
 export const getCartForUser = async (req, res, next) => {
-
   const usersCart = await Cart.findOne({ user: req.user._id });
 
-  if (!usersCart) return next(new ErrorHandler("User doesn't have any cart", 400));
+  if (!usersCart)
+    return next(new ErrorHandler("User doesn't have any cart", 400));
 
-  return sendResponse(res, true, 200, null, usersCart)
-
+  return sendResponse(res, true, 200, null, usersCart);
 };

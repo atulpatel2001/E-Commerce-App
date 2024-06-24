@@ -1,3 +1,6 @@
+/**
+ * Multer is use for stor image in particular folder but in file store image in upload folder
+ */
 import multer from "multer";
 import { v4 as uuid } from "uuid";
 

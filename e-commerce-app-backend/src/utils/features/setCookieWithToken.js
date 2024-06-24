@@ -1,3 +1,9 @@
+/**
+ * this function is set token in browser cookie
+ * @param {object} res 
+ * @param {object} user 
+ */
+
 export const setCookieWithToken = (res, user) => {
   const options = {
     expires: new Date(

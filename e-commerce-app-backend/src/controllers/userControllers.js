@@ -3,9 +3,6 @@ import ErrorHandler from "../utils/features/customError.js";
 import { sendResponse } from "../utils/features/customResponse.js";
 import { setCookieWithToken } from "../utils/features/setCookieWithToken.js";
 
-
-
-
 /**
  * Registers a new user by saving their details to the database and setting a JWT token in a cookie.
  *
@@ -34,8 +31,6 @@ export const registerUser = async (req, res, next) => {
 
   return sendResponse(res, true, 201, "User Registered successfully", result);
 };
-
-
 
 /**
  * Authenticates a user by checking email and password, sets a JWT token in a cookie upon successful login.
@@ -72,7 +67,6 @@ export const loginUser = async (req, res, next) => {
   );
 };
 
-
 /**
  * Fetches details of the currently logged-in user based on user ID stored in req.user._id.
  * Requires user authentication middleware to set req.user.
@@ -82,7 +76,6 @@ export const loginUser = async (req, res, next) => {
  * @param {Function} next - Express next middleware function
  * @returns {Promise<void>} - Promise resolving to a response containing user details
  */
-
 
 export const getMyDetails = async (req, res, next) => {
   const id = req.user._id;
@@ -106,7 +99,6 @@ export const logOutUser = async (req, res, next) => {
     });
 };
 
-
 /**
  * Controller function to fetch all users from the database.
  * @param {Object} req - Express request object
@@ -118,8 +110,6 @@ export const getAllUsers = async (req, res, next) => {
   const allusers = await User.find();
   return sendResponse(res, true, 200, null, allusers);
 };
-
-
 
 /**
  * Controller function to update user in db
@@ -156,42 +146,3 @@ export const updateUser = async (req, res, next) => {
   return sendResponse(res, true, 200, "User Updated Successfully", updatedUser);
 };
 
-
-
-
-
-
-
-
-
-
-// export const getSingleUser = async (req, res, next) => {
-//   const userId = req.params.id;
-
-//   if (!userId) return next(new ErrorHandler("User Id is required", 400));
-
-//   if (userId.length !== 24)
-//     return next(new ErrorHandler("Invalid User Id", 400));
-
-//   const singleUser = await User.findById(userId);
-
-//   if (!singleUser) return next(new ErrorHandler("Invalid User ID", 404));
-//   return sendResponse(res, true, 200, null, singleUser);
-// };
-
-// export const deleteUser = async (req, res, next) => {
-//   const userId = req.params.id;
-
-//   if (!userId) return next(new ErrorHandler("User Id is required", 400));
-
-//   if (userId.length !== 24)
-//     return next(new ErrorHandler("Invalid User Id", 400));
-
-//   const singleUser = await User.findById(userId);
-
-//   if (!singleUser) return next(new ErrorHandler("Invalid User ID", 404));
-
-//   await User.deleteOne({ _id: userId });
-
-//   return sendResponse(res, true, 200, "User Deleted Successfully");
-// };

@@ -1,3 +1,7 @@
+
+/**
+ * Cart Model
+ */
 import { Product } from './product.model'
 
 export interface CartItem {

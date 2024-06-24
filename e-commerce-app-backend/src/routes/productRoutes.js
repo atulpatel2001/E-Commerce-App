@@ -1,4 +1,3 @@
-
 /**
  * routes for Product controller
  */
@@ -8,7 +7,6 @@ import {
   getAllProducts,
   getProductById,
 } from "../controllers/productController.js";
-import { isAuthorized } from "../middlewares/auth.js";
 import { singleUpload } from "../middlewares/multer.js";
 import { RouteStrings } from "../utils/constants/routeStrings.js";
 import { TryCatch } from "../utils/features/tryCatch.js";

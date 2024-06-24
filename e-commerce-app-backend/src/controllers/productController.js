@@ -4,17 +4,19 @@
 
 import { sendResponse } from "../utils/features/customResponse.js";
 import { Product } from "../models/Product.js";
+
+
 /**
- * this function is create a cart 
+ * this function is create a cart
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  * @param {Function} next - Express next middleware function
- * @returns 
+ * @returns
  */
-export const createProduct = async (req, res, next) => {
-  const { name, price, description, category} = req.body;
 
-  
+
+export const createProduct = async (req, res, next) => {
+  const { name, price, description, category } = req.body;
 
   const productImage = req.file;
   console.log(productImage);
@@ -26,7 +28,7 @@ export const createProduct = async (req, res, next) => {
     price,
     description,
     category: category.toLowerCase(),
-    image:productImage.path
+    image: productImage.path,
   });
 
   if (!newProduct)
@@ -47,8 +49,6 @@ export const getAllProducts = async (req, res, next) => {
   const products = await Product.find();
   return sendResponse(res, true, 200, null, products);
 };
-
-
 
 /**
  * Retrieves a product by its ID from the database.

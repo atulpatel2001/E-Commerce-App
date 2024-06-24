@@ -19,6 +19,8 @@ router.route(RouteStrings.CREATE_CART).post(isAuthorized, TryCatch(createCart));
  * @Request : GET
  * @Route : /api/v1/cart
  */
-router.route(RouteStrings.SINGLE_CART).get(isAuthorized, TryCatch(getCartForUser));
+router
+  .route(RouteStrings.SINGLE_CART)
+  .get(isAuthorized, TryCatch(getCartForUser));
 
 export default router;
