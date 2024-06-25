@@ -4,5 +4,4 @@ export interface Cart {
   image:string;
   price: number;
   quantity: number;
-  userId?:string
 }

@@ -1,17 +1,17 @@
 <div *ngIf="product" class="product-details-container">
     <mat-card class="product-card">
       <mat-card-header>
-        <mat-card-title>{{ product.name }}</mat-card-title>
+        <mat-card-title style="color: white;">{{ product.name }}</mat-card-title>
         <mat-card-subtitle>\${{ product.price }}</mat-card-subtitle>
       </mat-card-header>
       <img mat-card-image [src]="'http://localhost:4000/' + product.image" alt="{{ product.name }}">
       <mat-card-content>
-        <p>{{ product.description }}</p>
+        <p style="color: white;">{{ product.description }}</p>
       </mat-card-content>
       <div class="actions">
         <button mat-button (click)="addToCart(product)" style="color: white;">Add to Cart</button>
         <button mat-button routerLink="/products" style="color: white;">Back</button>
-    
+
     </div>
     </mat-card>
   </div>
@@ -19,4 +19,3 @@
     <mat-spinner></mat-spinner>
     <p>Loading product details...</p>
   </div>
-  

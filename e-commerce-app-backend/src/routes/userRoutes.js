@@ -18,37 +18,37 @@ const router = express.Router();
 
 /**
  * @Request : POST
- * @Route : /api/v1/users/register
+ * @Route : /users/register
  */
 router.route(RouteStrings.REGISTER_USER).post(TryCatch(registerUser));
 
 /**
  * @Request : POST
- * @Route : /api/v1/users/login
+ * @Route : /users/login
  */
 router.route(RouteStrings.LOGIN_USER).post(TryCatch(loginUser));
 
 /**
  * @Request : GET
- * @Route : /api/v1/users/me
+ * @Route : /users/me
  */
 router.route(RouteStrings.USER_SELF).get(isAuthorized, TryCatch(getMyDetails));
 
 /**
  * @Request : GET
- * @Route : /api/v1/users/all
+ * @Route : /users/all
  */
 router.route(RouteStrings.ALL_USERS).get(isAuthorized, TryCatch(getAllUsers));
 
 /**
  * @Request : GET
- * @Route : /api/v1/users/logout
+ * @Route : /users/logout
  */
 router.route(RouteStrings.LOGOUT_USER).get(isAuthorized, TryCatch(logOutUser));
 
 /**
  * @Request : PUT
- * @Route : /api/v1/users/:id
+ * @Route : /users/:id
  */
 router.route(RouteStrings.UPDATE_USER).put(isAuthorized, TryCatch(updateUser));
 

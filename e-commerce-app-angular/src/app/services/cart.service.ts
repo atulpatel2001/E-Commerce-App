@@ -9,7 +9,7 @@ import { Product } from '../model/product.model';
 })
 export class CartService {
   private cartKey = 'cart';
-  private apiUrl = 'http://localhost:4000/api/v1/cart';
+  private apiUrl = 'http://localhost:4000/cart';
   private cartSubject = new BehaviorSubject<Cart[]>(this.getCartFromLocalStorage());
   cart$ = this.cartSubject.asObservable();
 
@@ -18,7 +18,7 @@ export class CartService {
   addItemToCart(product: Product) {
     const currentCart = this.getCartFromLocalStorage();
     const existingItem = currentCart.find(item => item.productId === product._id);
-    
+
     if (existingItem) {
       existingItem.quantity += 1;
     } else {
@@ -51,11 +51,9 @@ export class CartService {
   }
 
   saveCartToDatabase(userId: string) {
-    const currentCart = this.getCartFromLocalStorage().map(item => ({
-      ...item,
-      userId
-    }));
-    return this.http.post(`${this.apiUrl}/create`, { items: currentCart });
+    const currentCart = this.getCartFromLocalStorage();
+
+    return this.http.post(`${this.apiUrl}/create`, { items: currentCart }, { withCredentials: true });
   }
 
 
@@ -64,7 +62,7 @@ export class CartService {
     const item = currentCart.find(item => item.productId === productId);
     if (item) {
       item.quantity += 1;
-      item.price=item.price*item.quantity;
+      item.price=item.price * item.quantity;
       this.saveCartToLocalStorage(currentCart);
       this.cartSubject.next(currentCart);
     }
@@ -74,14 +72,11 @@ export class CartService {
     const currentCart = this.getCartFromLocalStorage();
     const item = currentCart.find(item => item.productId === productId);
     if (item && item.quantity > 1) {
-      if(item.quantity <= 0){
-        this.removeItem(productId);
-      }
       item.quantity -= 1;
-      item.price=item.price*item.quantity;
+      //item.price = item.price * item.quantity;
       this.saveCartToLocalStorage(currentCart);
       this.cartSubject.next(currentCart);
-      
+
     }
   }
 

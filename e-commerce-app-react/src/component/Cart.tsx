@@ -5,8 +5,9 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../redux/store';
-import { removeItem, updateCartQuantity, clearCart, saveCartToDatabase } from '../redux/CartSlice';
+import { removeItem, updateCartQuantity, clearCart } from '../redux/CartSlice';
 import { Typography, Card, CardContent, CardActions, Button, Grid, TextField, CardMedia } from '@mui/material';
+import { getCartFromLocalStorage, saveCartToDatabase } from '../services/CartService';
 
 const Cart: React.FC = () => {
 
@@ -17,7 +18,11 @@ const Cart: React.FC = () => {
   const { isLoggedIn } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
-
+    const cartData=getCartFromLocalStorage();
+    console.log(cartData)
+      if(isLoggedIn){
+        saveCartToDatabase(cartData);
+      }
   }, [dispatch, isLoggedIn]);
 
 
@@ -28,9 +33,6 @@ const Cart: React.FC = () => {
    */
   const handleRemove = (id: string) => {
     dispatch(removeItem(id));
-    if (isLoggedIn) {
-      dispatch(saveCartToDatabase());
-    }
   };
 
   /**
@@ -41,9 +43,6 @@ const Cart: React.FC = () => {
 
   const handleQuantityChange = (id: string, quantity: number) => {
     dispatch(updateCartQuantity({ id, quantity }));
-    if (isLoggedIn) {
-      dispatch(saveCartToDatabase());
-    }
   };
 
   /**
@@ -51,9 +50,6 @@ const Cart: React.FC = () => {
    */
   const handleClearCart = () => {
     dispatch(clearCart());
-    if (isLoggedIn) {
-      dispatch(saveCartToDatabase());
-    }
   };
 
   /**
@@ -84,26 +80,26 @@ const Cart: React.FC = () => {
       </Typography>
       <Grid container spacing={3}>
         {items.map((item) => (
-          <Grid item key={item._id} xs={12}>
+          <Grid item key={item.productId} xs={12}>
             <Card sx={{ display: 'flex' }}>
               <CardMedia
                 component="img"
                 sx={{ width: 160, objectFit: 'cover' }}
                 image={`http://localhost:4000/${item.image}`} // Adjust URL as per your backend setup
-                alt={item.name}
+                alt={item.productName}
               />
               <CardContent sx={{ flex: 1 }}>
-                <Typography variant="h5">{item.name}</Typography>
+                <Typography variant="h5">{item.productName}</Typography>
                 <Typography variant="body1">${item.price}</Typography>
                 <TextField
                   type="number"
                   label="Quantity"
                   value={item.quantity}
-                  onChange={(e) => handleQuantityChange(item._id, parseInt(e.target.value))}
+                  onChange={(e) => handleQuantityChange(item.productId, parseInt(e.target.value))}
                 />
               </CardContent>
               <CardActions>
-                <Button onClick={() => handleRemove(item._id)}>Remove</Button>
+                <Button onClick={() => handleRemove(item.productId)}>Remove</Button>
               </CardActions>
             </Card>
           </Grid>

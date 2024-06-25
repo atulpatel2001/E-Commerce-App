@@ -1,11 +1,9 @@
 export class RouteStrings {
-  // BASIC URL prefix
-  static BASE_URL = "/api/v1";
 
   //Base Routes
-  static USER_URL = `${this.BASE_URL}/users`;
-  static PRODUCT_URL = `${this.BASE_URL}/products`;
-  static CART_URL = `${this.BASE_URL}/cart`;
+  static USER_URL = '/users';
+  static PRODUCT_URL = '/products';
+  static CART_URL = '/cart';
 
   //Users Endpoints
   static LOGIN_USER = `/login`;

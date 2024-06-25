@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom';
 import { getProductById } from '../services/ProductService';
 import { Typography, Card, CardMedia, CardContent, Button } from '@mui/material';
 import Product from '../models/Product';
-import { addItem } from '../redux/CartSlice';
+import { CartItem, addItem } from '../redux/CartSlice';
 import { useDispatch } from 'react-redux';
 
 
@@ -29,7 +29,14 @@ const ProductDetails: React.FC = () => {
    * add to cart fuction ,add product
    */
   const handleAddToCart = () => {
-    dispatch(addItem(product));
+    const cart:CartItem={
+      productId:product._id,
+      image:product.image,
+      price:product.price,
+      productName:product.name,
+      quantity:1
+    }
+    dispatch(addItem(cart));
   };
 
   

@@ -1,11 +1,13 @@
 /**
  * Cart Reducer perform all cart related task
  */
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { saveCartToDatabase as saveCartToDb, fetchCartFromDatabase } from '../services/CartService'; // Assuming you have a service for API calls
-import Product from '../models/Product';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export interface CartItem extends Product {
+export interface CartItem  {
+  productId: string;
+  productName: string;
+  image:string;
+  price: number;
   quantity: number;
 }
 
@@ -17,7 +19,7 @@ interface CartState {
 
 interface RootState {
   cart: CartState;
-  user: { isLoggedIn: boolean; userId: string }; 
+  user: { isLoggedIn: boolean; userId: string };
 }
 
 const initialState: CartState = {
@@ -26,30 +28,8 @@ const initialState: CartState = {
   error: null,
 };
 
-/**
- * Fetch cart From Database ad store in cart[]
- */
-export const fetchCart = createAsyncThunk('cart/fetchCart', async (_, { getState }) => {
-  const state = getState() as RootState;
-  try {
-    const response = await fetchCartFromDatabase(state.user.userId); 
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching cart:');
-    return [];
-  }
-});
+const cartKey='cartItems';
 
-// Save cart to database after login
-export const saveCartToDatabase = createAsyncThunk('cart/saveCartToDatabase', async (_, { getState }) => {
-  const state = getState() as RootState;
-  try {
-    await saveCartToDb(state.cart.items); 
-  } catch (error) {
-    console.error('Error saving cart:');
-    throw error;
-  }
-});
 
 /**
  * create cart slice and perform all action
@@ -58,56 +38,30 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addItem: (state, action: PayloadAction<Product>) => {
-      const existingItem = state.items.find(item => item._id === action.payload._id);
+    addItem: (state, action: PayloadAction<CartItem>) => {
+      const existingItem = state.items.find(item => item.productId === action.payload.productId);
       if (existingItem) {
         existingItem.quantity += 1;
       } else {
         state.items.push({ ...action.payload, quantity: 1 });
       }
-      localStorage.setItem('cartItems', JSON.stringify(state.items));
+      localStorage.setItem(cartKey, JSON.stringify(state.items));
     },
     removeItem: (state, action: PayloadAction<string>) => {
-      state.items = state.items.filter(item => item._id !== action.payload);
-      localStorage.setItem('cartItems', JSON.stringify(state.items));
+      state.items = state.items.filter(item => item.productId !== action.payload);
+      localStorage.setItem(cartKey, JSON.stringify(state.items));
     },
     updateCartQuantity: (state, action: PayloadAction<{ id: string; quantity: number }>) => {
-      const item = state.items.find(item => item._id === action.payload.id);
+      const item = state.items.find(item => item.productId === action.payload.id);
       if (item) {
         item.quantity = action.payload.quantity;
       }
-      localStorage.setItem('cartItems', JSON.stringify(state.items));
+      localStorage.setItem(cartKey, JSON.stringify(state.items));
     },
     clearCart: (state) => {
       state.items = [];
-      localStorage.removeItem('cartItems');
+      localStorage.removeItem(cartKey);
     },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchCart.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchCart.fulfilled, (state, action: PayloadAction<CartItem[]>) => {
-        state.items = action.payload;
-        state.loading = false;
-      })
-      .addCase(fetchCart.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message || 'Failed to load cart';
-      })
-      .addCase(saveCartToDatabase.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(saveCartToDatabase.fulfilled, (state) => {
-        state.loading = false;
-      })
-      .addCase(saveCartToDatabase.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message || 'Failed to save cart';
-      });
   },
 });
 

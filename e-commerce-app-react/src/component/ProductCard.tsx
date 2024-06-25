@@ -6,7 +6,7 @@ import React from 'react';
 import { Card, CardMedia, CardContent, Typography, CardActions, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { addItem } from '../redux/CartSlice';
+import { CartItem, addItem } from '../redux/CartSlice';
 import Product from '../models/Product';
 
 //productcard props get products component
@@ -21,7 +21,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
    * add to cart fuction ,add product
    */
   const handleAddToCart = () => {
-    dispatch(addItem(product));
+    const cart:CartItem={
+      productId:product._id,
+      image:product.image,
+      price:product.price,
+      productName:product.name,
+      quantity:1
+    }
+    dispatch(addItem(cart));
   };
 
   return (

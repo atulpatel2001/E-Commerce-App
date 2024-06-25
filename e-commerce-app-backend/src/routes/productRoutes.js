@@ -15,7 +15,7 @@ const router = express.Router();
 
 /**
  * @Request : POST
- * @Route : /api/v1/products/create
+ * @Route : /products/create
  */
 router
   .route(RouteStrings.CREATE_PRODUCT)
@@ -23,13 +23,13 @@ router
 
 /**
  * @Request : GET
- * @Route : /api/v1/products/all
+ * @Route : /products/all
  */
 router.route(RouteStrings.ALL_PRODUCTS).get(TryCatch(getAllProducts));
 
 /**
  * @Request : GET
- * @Route : /api/v1/products/:id
+ * @Route : /products/:id
  */
 router.route(RouteStrings.SINGLE_PRODUCT).get(TryCatch(getProductById));
 

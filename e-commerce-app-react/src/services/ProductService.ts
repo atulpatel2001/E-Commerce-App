@@ -5,7 +5,7 @@
 import axios from 'axios';
 import Product from '../models/Product';
 
-const API_URL = 'http://localhost:4000/api/v1/products';
+const API_URL = 'http://localhost:4000/products';
 
 
 

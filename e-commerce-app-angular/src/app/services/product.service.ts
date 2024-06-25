@@ -6,13 +6,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Product } from '../model/product.model'; 
+import { Product } from '../model/product.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
-  private API_URL = 'http://localhost:4000/api/v1/products';
+  private API_URL = 'http://localhost:4000/products';
 
   constructor(private http: HttpClient) {}
 

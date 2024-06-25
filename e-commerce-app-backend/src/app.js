@@ -2,7 +2,13 @@ import express from "express";
 import { config } from "dotenv";
 import cors from "cors";
 import morgan from "morgan";
-import path from 'path';
+import userRoutes from "./routes/userRoutes.js";
+import productRoutes from "./routes/productRoutes.js";
+import cartRoutes from "./routes/cartRoutes.js";
+import { RouteStrings } from "./utils/constants/routeStrings.js";
+import { connectToMongoDb } from "./utils/dbConnection.js";
+import { errorMiddleware } from "./middlewares/errorMiddlesware.js";
+import cookieParser from "cookie-parser";
 config({
   path: "./src/.env",
 });
@@ -36,19 +42,14 @@ app.use(
 //making uploads folder available to users as static
 app.use("/uploads", express.static("uploads"));
 
-// setting up routes with app
-import userRoutes from "./routes/userRoutes.js";
-import productRoutes from "./routes/productRoutes.js";
-import cartRoutes from "./routes/cartRoutes.js";
-import { RouteStrings } from "./utils/constants/routeStrings.js";
-import { connectToMongoDb } from "./utils/dbConnection.js";
+
+
 app.use(RouteStrings.USER_URL, userRoutes);
 app.use(RouteStrings.PRODUCT_URL, productRoutes);
 app.use(RouteStrings.CART_URL, cartRoutes);
 
-// custom error handler middleware
-import { errorMiddleware } from "./middlewares/errorMiddlesware.js";
-import cookieParser from "cookie-parser";
+
+
 app.use(errorMiddleware);
 
 app.listen(PORT, () => {

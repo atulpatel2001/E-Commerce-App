@@ -1,17 +1,18 @@
-// Define a Mongoose schema for the Cart collection
+// Import necessary modules
 import { Schema, model } from "mongoose";
 
+// Define the cart schema
 const cartSchema = new Schema(
   {
     user: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: "User", // Assuming you have a User model
     },
     items: [
       {
         product: {
           type: Schema.Types.ObjectId,
-          ref: "Product",
+          ref: "Product", // Assuming you have a Product model
         },
         quantity: {
           type: Number,
@@ -29,7 +30,7 @@ const cartSchema = new Schema(
     },
   },
   {
-    timestamps: true,
+    timestamps: true, // Adds timestamps for createdAt and updatedAt
   }
 );
 

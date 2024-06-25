@@ -9,10 +9,10 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class AuthService {
-  API_URL = 'http://localhost:4000/api/v1/users';
+  API_URL = 'http://localhost:4000/users';
 
 
-  isLoggedIn = false; 
+  isLoggedIn = false;
 
   constructor(private http: HttpClient) {}
 
@@ -82,6 +82,6 @@ export class AuthService {
 
 
   IsLoggedIn=(): boolean=> {
-    return this.isLoggedIn; 
+    return this.isLoggedIn;
   }
 }

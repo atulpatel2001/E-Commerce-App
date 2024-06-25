@@ -11,13 +11,13 @@ const router = express.Router();
 
 /**
  * @Request : POST
- * @Route : /api/v1/cart/create
+ * @Route : cart/create
  */
 router.route(RouteStrings.CREATE_CART).post(isAuthorized, TryCatch(createCart));
 
 /**
  * @Request : GET
- * @Route : /api/v1/cart
+ * @Route : /cart
  */
 router
   .route(RouteStrings.SINGLE_CART)
