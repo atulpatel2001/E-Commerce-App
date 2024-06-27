@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="checkout-form">
+    <h2 class="checkout-heading">Checkout</h2>
+    <form (ngSubmit)="onSubmit()" #checkoutForm="ngForm">
+      <div class="form-group">
+        <label for="fullName">Full Name</label>
+        <input type="text" class="form-control" id="fullName" name="fullName" [(ngModel)]="personalDetails.fullName" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" class="form-control" id="email" name="email" [(ngModel)]="personalDetails.email" required>
+      </div>
+      <div class="form-group">
+        <label for="address">Address</label>
+        <textarea class="form-control" id="address" name="address" [(ngModel)]="personalDetails.address" rows="3" required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="paymentMethod">Payment Method</label>
+        <select class="form-control" id="paymentMethod" name="paymentMethod" [(ngModel)]="paymentMethod" required>
+          <option value="" disabled>Select Payment Method</option>
+          <option value="creditCard">Credit Card</option>
+          <option value="paypal">Cash On Delivery</option>
+          <option value="bankTransfer">Check</option>
+        </select>
+      </div>
+
+      <div *ngIf="paymentMethod === 'creditCard'">
+        <div class="form-group">
+          <label for="cardNumber">Card Number</label>
+          <input type="text" class="form-control" id="cardNumber" name="cardNumber" [(ngModel)]="creditCardDetails.cardNumber" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="expiryDate">Expiry Date</label>
+            <input type="text" class="form-control" id="expiryDate" name="expiryDate" [(ngModel)]="creditCardDetails.expiryDate" required>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="cvv">CVV</label>
+            <input type="text" class="form-control" id="cvv" name="cvv" [(ngModel)]="creditCardDetails.cvv" required>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary">Place Order</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,21 +1,25 @@
-<div *ngIf="product" class="product-details-container">
-    <mat-card class="product-card">
-      <mat-card-header>
-        <mat-card-title style="color: white;">{{ product.name }}</mat-card-title>
-        <mat-card-subtitle>\${{ product.price }}</mat-card-subtitle>
-      </mat-card-header>
-      <img mat-card-image [src]="'http://localhost:4000/' + product.image" alt="{{ product.name }}">
-      <mat-card-content>
-        <p style="color: white;">{{ product.description }}</p>
-      </mat-card-content>
-      <div class="actions">
-        <button mat-button (click)="addToCart(product)" style="color: white;">Add to Cart</button>
-        <button mat-button routerLink="/products" style="color: white;">Back</button>
-
+<div class="product-details-container" *ngIf="product">
+  <mat-card class="product-card">
+    <div class="image-container">
+      <img class="product-image" [src]="'http://localhost:4000/' + product.image" alt="{{ product.name }}">
     </div>
-    </mat-card>
-  </div>
-  <div *ngIf="!product" class="loading-container">
-    <mat-spinner></mat-spinner>
-    <p>Loading product details...</p>
-  </div>
+    <div class="details-container">
+      <mat-card-header>
+        <mat-card-title>{{ product.name }}</mat-card-title>
+        <mat-card-subtitle class="price">\${{ product.price }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>{{ product.description }}</p>
+      </mat-card-content>
+      <mat-card-actions class="actions">
+        <button mat-raised-button color="primary" (click)="addToCart(product)">Add to Cart</button>
+        <!-- <button mat-button color="accent" routerLink="/products">Back to Products</button> -->
+      </mat-card-actions>
+    </div>
+  </mat-card>
+</div>
+
+<div class="loading-container" *ngIf="!product">
+  <mat-spinner diameter="50"></mat-spinner>
+  <p>Loading product details...</p>
+</div>

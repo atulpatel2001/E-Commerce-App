@@ -19,10 +19,12 @@
         </div>
       </div>
     </div>
-    <button class="checkout-button" mat-raised-button color="primary">Checkout</button>
+    <h2>Total Amount:-${{total}}</h2>
+    <div *ngIf="token">
+    <button class="checkout-button" mat-raised-button color="primary" (click)="handleCheckout()">Checkout</button>
+    </div>
   </div>
-  
+
   <ng-template #emptyCart>
     <p class="empty-cart-message">Your cart is empty</p>
   </ng-template>
-  

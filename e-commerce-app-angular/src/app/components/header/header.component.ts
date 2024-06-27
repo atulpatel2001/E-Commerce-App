@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgToastModule, NgToastService } from 'ng-angular-popup';
 import { AuthService } from 'src/app/services/auth.service';
 import { CookieServices } from 'src/app/services/cookies.service';
 
@@ -9,15 +10,25 @@ import { CookieServices } from 'src/app/services/cookies.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
-  constructor(private router: Router,private cookiesService:CookieServices,private authService:AuthService) {}
+  constructor(private router: Router,private authService:AuthService,private tostService:NgToastService) {}
 
-  token:string=this.cookiesService.getCookie();
- // isLogin:boolean=this.authService.IsLoggedIn();
-  
+  // token:string=''
+        isLogin:boolean=false
 
+ ngOnInit(): void {
+      this.isLogin = this.authService.isLoggedIn();
+
+}
   handleLogout(): void {
     this.authService.logOut();
     this.router.navigate(['/login']);
-    this.router.navigateByUrl(this.router.url);
+    this.tostService.success({
+      detail: 'Success',
+      summary: "Successfully Logout!!!!!! ",
+      duration: 3000
+    })
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
   }
 }

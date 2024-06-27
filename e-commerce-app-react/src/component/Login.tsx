@@ -10,7 +10,8 @@ import { loginUser } from '../services/authService';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../redux/UserSlice';
 import { useDispatch } from 'react-redux';
-import {  AppDispatch } from '../redux/store';
+import { AppDispatch } from '../redux/store';
+import { useAlert } from '../hook/UserAlert';
 const Login: React.FC = () => {
 
 
@@ -18,6 +19,7 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const showAlert = useAlert();
 
   /**
    * get form input data and call loginuser function for call node js api
@@ -26,11 +28,15 @@ const Login: React.FC = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await loginUser(email, password);
-      console.log('Login Successful:', response);
-      const { _id } = response; 
+      await loginUser(email, password).then((data) => {
+        dispatch(login());
+        showAlert('Login successful!', 'success');
 
-      dispatch(login(_id));
+      }).catch((error) => {
+        showAlert('Login failed!', 'error');
+      });
+
+
       navigate("/products");
 
     } catch (error) {

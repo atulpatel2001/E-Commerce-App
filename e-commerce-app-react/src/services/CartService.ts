@@ -17,14 +17,17 @@ export const saveCartToDatabase = async (cartItems: CartItem[]) => {
 /**
  * fetch cart data from database but related particular user
  * @param userId 
- * @returns 
+ * @returns response
  */
 export const fetchCartFromDatabase = async (userId: string | null) => {
   const response = await axios.get(`${API_URL}/cart`, {withCredentials: true});
   return response;
 };
 
-
+/**
+ * get cart data from localstorage
+ * @returns CartItem[]
+ */
 export const  getCartFromLocalStorage=(): CartItem[] =>{
   const cart = localStorage.getItem("cartItems");
   return cart ? JSON.parse(cart) : [];

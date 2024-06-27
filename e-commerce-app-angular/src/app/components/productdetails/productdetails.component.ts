@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NgToastService } from 'ng-angular-popup';
 import { Product } from 'src/app/model/product.model';
+import { CartService } from 'src/app/services/cart.service';
 import { ProductService } from 'src/app/services/product.service';
 
 @Component({
@@ -13,7 +15,9 @@ export class ProductdetailsComponent {
 
   constructor(
     private route: ActivatedRoute,
-    private productService: ProductService
+    private productService: ProductService,
+    private cartService:CartService,
+    private tostService: NgToastService
   ) { }
 
   ngOnInit(): void {
@@ -28,7 +32,11 @@ export class ProductdetailsComponent {
   }
 
   addToCart(product: Product): void {
-    // this.cartService.addItemToCart(product); 
-    alert('Product added to cart!');
+    this.cartService.addItemToCart(product);
+    this.tostService.success( {
+      detail: 'Success',
+      summary: "Successfully Add Product to cart",
+      duration: 3000
+    })
   }
 }

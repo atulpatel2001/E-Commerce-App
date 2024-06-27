@@ -35,7 +35,7 @@ const ProductForm: React.FC = () => {
    * @param e 
    */
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
+    if (e.target.files ) {
       setFormData({
         ...formData,
         image: e.target.files[0],

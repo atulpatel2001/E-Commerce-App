@@ -8,14 +8,13 @@
     <span class="spacer"></span>
 
 
-    <div *ngIf="token">
+    <div *ngIf="isLogin">
       <button mat-button  (click)="handleLogout()">Logout</button>
     </div>
 
 
-    <div *ngIf="!token">
+    <div *ngIf="!isLogin">
     <button mat-button  routerLink="/login">Login</button>
     <button mat-button  routerLink="/signup">Sign Up</button>
   </div>
   </mat-toolbar>
-  

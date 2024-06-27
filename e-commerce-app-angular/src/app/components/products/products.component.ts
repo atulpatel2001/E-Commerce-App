@@ -11,7 +11,6 @@ import { ProductService } from 'src/app/services/product.service';
 export class ProductsComponent {
   products: Product[] = [];
 
-
   constructor(private productService: ProductService) {}
   loadProducts=()=>{
     this.productService.getAllProducts().subscribe((elements:any) => {
@@ -21,5 +20,6 @@ export class ProductsComponent {
   }
   ngOnInit(): void {
   this.loadProducts();
+
   }
 }

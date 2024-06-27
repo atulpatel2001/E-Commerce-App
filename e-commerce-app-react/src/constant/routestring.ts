@@ -1,0 +1,6 @@
+export const productRoute= '/products'
+export const cartRotute= '/cart'
+export const productDetailRoute= '/products/:id'
+export const loginRoute= '/login'
+export const signupRoute= '/signup'
+export const addProductRoute ='/addproduct'

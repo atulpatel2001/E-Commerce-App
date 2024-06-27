@@ -56,7 +56,7 @@ export const loginUser = async (email: string, password: string) => {
  * purpose of this function is logout from current session and remove token form localstorage
  * @param token 
  */
-export const logOut = async (token: string | undefined) => {
+export const logOut = async () => {
   try {
     const response = await axios.get(`${API_URL}/logout`, {
       withCredentials: true,

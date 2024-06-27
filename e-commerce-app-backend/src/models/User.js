@@ -47,8 +47,6 @@ userSchema.pre("save", async function (next) {
 
 // comparing the entered non-encrypted password with encrypted password
 userSchema.methods.comparePassword = async function (enteredPassword) {
-  console.log(" int the password");
-
   return await bcrypt.compare(enteredPassword, this.password);
 };
 

@@ -6,23 +6,24 @@ import React from 'react';
 import { AppBar, Toolbar, Typography, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { getToken } from '../services/CookiesService';
 import { logOut } from '../services/authService';
-import { RootState } from '../redux/store';
-
+import { AppDispatch, RootState } from '../redux/store';
+import { useDispatch } from 'react-redux';
 import { logout } from '../redux/UserSlice';
-
+import { useAlert } from '../hook/UserAlert';
 const Navbar: React.FC = () => {
-  const token: string | undefined = getToken();
-  const { isLoggedIn } = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch<AppDispatch>();
+  const user = useSelector((state: RootState) => state.user);
+  const showAlert = useAlert();
 
   /**
    * Logout Request Handle call Logout api
    */
 
   const handleLogout = async () => {
-    logOut(token);
-    logout();
+   await logOut();
+    dispatch(logout());
+    showAlert('Logout successfully!', 'success');
 
   };
 
@@ -36,7 +37,7 @@ const Navbar: React.FC = () => {
         <Button color="inherit" component={Link} to="/products">Products</Button>
         <Button color="inherit" component={Link} to="/cart">Cart</Button>
         <Button color="inherit" component={Link} to="/contact">Contact</Button>
-        {isLoggedIn ? (
+        {user.isLoggedIn ? (
           <Button color="inherit" onClick={handleLogout}>Logout</Button>
         ) : (
           <>

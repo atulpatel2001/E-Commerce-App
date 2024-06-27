@@ -1,13 +1,14 @@
 
 import './App.css';
 import RoutesComponent from './component/Routes';
+import { AlertProvider } from './context/provider/AlertProvider';
 
 function App() {
   return (
     <div className="App">
-      
-      <RoutesComponent/>
-     
+         <AlertProvider>
+       <RoutesComponent/>
+      </AlertProvider>
     </div>
   );
 }

@@ -1,4 +1,6 @@
-
+/**
+ * Cart Model
+ */
 export interface Cart {
     productId: string;
     productName: string;

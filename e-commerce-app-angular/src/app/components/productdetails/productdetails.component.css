@@ -1,49 +1,71 @@
 .product-details-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  height: calc(100vh - 64px); /* Adjust based on your header height */
+}
 
-  .product-card {
-    width: 100%;
-    max-width: 400px;
-    margin: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
+.product-card {
+  display: flex;
+  width: 100%;
+  max-width: 800px; /* Adjust max-width as needed */
+  margin: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  color: #333;
+}
 
-  .mat-card-header {
-    padding-bottom: 0;
-  }
+.image-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+}
 
-  .mat-card-title, .mat-card-subtitle {
-    font-size: 1.2em;
-  }
+.product-image {
+  height: 300px; /* Set fixed height */
+  max-width: 100%; /* Ensure image scales within container */
+  object-fit: contain; /* Maintain aspect ratio */
+}
 
-  .mat-card-image {
-    max-height: 200px;
-    object-fit: cover;
-  }
+.details-container {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+}
 
-  .mat-card-content p {
-    font-size: 0.9em;
-    color: #666; 
-  }
+.mat-card-header {
+  padding: 16px;
+  border-bottom: 1px solid #ddd;
+}
 
-  .actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-  }
+.mat-card-title {
+  font-size: 2em;
+  font-weight: 600;
+}
 
+.price {
+  color: #1976d2; /* Primary color for price */
+}
 
+.mat-card-content {
+  padding: 16px;
+}
 
-  .loading-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    height: 100vh;
-    text-align: center;
-  }
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: calc(100vh - 64px); /* Adjust based on your header height */
+  text-align: center;
+  color: #666;
+}

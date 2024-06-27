@@ -21,7 +21,11 @@ import { MatCardModule } from '@angular/material/card';
 import { ProductdetailsComponent } from './components/productdetails/productdetails.component'; // Import MatCardModule
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CartComponent } from './components/cart/cart.component';
-import { MatIconModule } from '@angular/material/icon'; 
+import { MatIconModule } from '@angular/material/icon';
+import { CheckoutComponent } from './components/checkout/checkout.component';
+import { NgToastModule } from 'ng-angular-popup';
+import { HomeComponent } from './components/home/home.component';
+import { ContactComponent } from './components/contact/contact.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -29,8 +33,10 @@ const routes: Routes = [
   { path: 'products', component: ProductsComponent },
   { path: 'products/:id', component: ProductdetailsComponent },
   { path: 'cart', component: CartComponent },
-
-  { path: '**', redirectTo: '' } 
+  {path:  'checkout',component: CheckoutComponent},
+  {path:  '',component: HomeComponent},
+  {path:  'contact',component: ContactComponent},
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({
@@ -43,14 +49,17 @@ const routes: Routes = [
     ProductsComponent,
     ProductCardComponent,
     ProductdetailsComponent,
-    CartComponent
+    CartComponent,
+    CheckoutComponent,
+    HomeComponent,
+    ContactComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     MatButtonModule,
     MatToolbarModule,
-    RouterModule.forRoot(routes), 
+    RouterModule.forRoot(routes),
     AppRoutingModule ,
     FormsModule,
     HttpClientModule,
@@ -61,15 +70,9 @@ const routes: Routes = [
     CommonModule,
     MatCardModule,
     MatProgressSpinnerModule,
-    MatIconModule
-    
-    
-  
-  
-  
+    MatIconModule,
+    NgToastModule
 
-
-    
   ],
   providers: [],
   bootstrap: [AppComponent]

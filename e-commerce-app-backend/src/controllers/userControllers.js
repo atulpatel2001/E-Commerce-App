@@ -13,7 +13,7 @@ import { setCookieWithToken } from "../utils/features/setCookieWithToken.js";
  */
 export const registerUser = async (req, res, next) => {
   const { name, email, password, phone } = req.body;
-console.log(name, email, password, phone)
+  console.log(name, email, password, phone)
   if (!name || !email || !password || !phone) {
     return next(new ErrorHandler("All Fields are required", 400));
   }
@@ -24,7 +24,7 @@ console.log(name, email, password, phone)
     password,
     phone,
   });
- 
+
   const result = await newUser.save();
 
   setCookieWithToken(res, result);

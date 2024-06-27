@@ -13,6 +13,7 @@ export class CartService {
   private cartSubject = new BehaviorSubject<Cart[]>(this.getCartFromLocalStorage());
   cart$ = this.cartSubject.asObservable();
 
+
   constructor(private http: HttpClient) {}
 
   addItemToCart(product: Product) {
@@ -50,7 +51,7 @@ export class CartService {
     this.cartSubject.next([]);
   }
 
-  saveCartToDatabase(userId: string) {
+  saveCartToDatabase() {
     const currentCart = this.getCartFromLocalStorage();
 
     return this.http.post(`${this.apiUrl}/create`, { items: currentCart }, { withCredentials: true });
@@ -62,7 +63,6 @@ export class CartService {
     const item = currentCart.find(item => item.productId === productId);
     if (item) {
       item.quantity += 1;
-      item.price=item.price * item.quantity;
       this.saveCartToLocalStorage(currentCart);
       this.cartSubject.next(currentCart);
     }
@@ -73,10 +73,8 @@ export class CartService {
     const item = currentCart.find(item => item.productId === productId);
     if (item && item.quantity > 1) {
       item.quantity -= 1;
-      //item.price = item.price * item.quantity;
       this.saveCartToLocalStorage(currentCart);
       this.cartSubject.next(currentCart);
-
     }
   }
 
@@ -87,5 +85,8 @@ export class CartService {
     this.cartSubject.next(currentCart);
   }
 
-
+  getTotalAmount(): number {
+    const currentCart = this.getCartFromLocalStorage();
+    return currentCart.reduce((total, item) => total + (item.price * item.quantity), 0);
+  }
 }

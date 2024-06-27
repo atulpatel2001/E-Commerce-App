@@ -6,8 +6,11 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../redux/store';
 import { removeItem, updateCartQuantity, clearCart } from '../redux/CartSlice';
-import { Typography, Card, CardContent, CardActions, Button, Grid, TextField, CardMedia } from '@mui/material';
+import { Typography, Card, CardContent, CardActions, Button, Grid, TextField, CardMedia, Box } from '@mui/material';
 import { getCartFromLocalStorage, saveCartToDatabase } from '../services/CartService';
+import { useAlert } from '../hook/UserAlert';
+import { useNavigate } from 'react-router-dom';
+import { Delete } from '@mui/icons-material';
 
 const Cart: React.FC = () => {
 
@@ -16,13 +19,14 @@ const Cart: React.FC = () => {
   //get cart array from cartslice
   const { items, loading, error } = useSelector((state: RootState) => state.cart);
   const { isLoggedIn } = useSelector((state: RootState) => state.user);
-
+  const showAlert = useAlert();
+  const navigate = useNavigate();
   useEffect(() => {
-    const cartData=getCartFromLocalStorage();
+    const cartData = getCartFromLocalStorage();
     console.log(cartData)
-      if(isLoggedIn){
-        saveCartToDatabase(cartData);
-      }
+    if (isLoggedIn) {
+      saveCartToDatabase(cartData);
+    }
   }, [dispatch, isLoggedIn]);
 
 
@@ -56,10 +60,8 @@ const Cart: React.FC = () => {
    * check out function
    */
   const handleCheckout = () => {
-    alert(
-      "successfully placed order"
-    )
-    dispatch(clearCart());
+
+    navigate("/checkout");
   }
 
   //find total price of cart iteam
@@ -74,14 +76,20 @@ const Cart: React.FC = () => {
   }
 
   return (
-    <div>
+    <Box sx={{ padding: 2 }}>
       <Typography variant="h4" gutterBottom>
         Shopping Cart
       </Typography>
+     
+      {items.length <= 0 && (
+        <Box>
+           <Typography variant="h5">Cart Is Empty</Typography>
+        </Box>
+      )}
       <Grid container spacing={3}>
         {items.map((item) => (
           <Grid item key={item.productId} xs={12}>
-            <Card sx={{ display: 'flex' }}>
+            <Card sx={{ display: 'flex', alignItems: 'center' }}>
               <CardMedia
                 component="img"
                 sx={{ width: 160, objectFit: 'cover' }}
@@ -90,39 +98,58 @@ const Cart: React.FC = () => {
               />
               <CardContent sx={{ flex: 1 }}>
                 <Typography variant="h5">{item.productName}</Typography>
-                <Typography variant="body1">${item.price}</Typography>
+                <Typography variant="body1" color="text.secondary">${item.price}</Typography>
                 <TextField
                   type="number"
                   label="Quantity"
                   value={item.quantity}
                   onChange={(e) => handleQuantityChange(item.productId, parseInt(e.target.value))}
+                  inputProps={{ min: 1 }}
+                  sx={{ marginTop: 1, width: '100px' }}
                 />
               </CardContent>
               <CardActions>
-                <Button onClick={() => handleRemove(item.productId)}>Remove</Button>
+                <Button
+                  size="small"
+                  onClick={() => handleRemove(item.productId)}
+                  startIcon={<Delete />}
+                  color="error"
+                >
+                  Remove
+                </Button>
               </CardActions>
             </Card>
           </Grid>
         ))}
       </Grid>
-      <Typography variant="h5" gutterBottom sx={{ marginTop: 2 }}>
-        Total Price: ${totalPrice.toFixed(2)}
-      </Typography>
-      <Button onClick={handleClearCart} variant="contained" color="secondary" sx={{ marginTop: 2 }}>
-        Clear Cart
-      </Button>
 
-      {isLoggedIn && items.length > 0 ? (
-        <Button variant="contained" color="primary" onClick={handleCheckout}>
-          Checkout
-        </Button>
-      ) : (
-        <Typography variant="body1">
-          Please log in to proceed to checkout.
-        </Typography>
+
+      {items.length > 0 && (
+        <Box>
+          <Typography variant="h5" gutterBottom sx={{ marginTop: 2 }}>
+            Total Price: ${totalPrice.toFixed(2)}
+          </Typography>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
+            <Button onClick={handleClearCart} variant="contained" color="secondary">
+              Clear Cart
+            </Button>
+
+            {isLoggedIn ? (
+              <Button variant="contained" color="primary"  onClick={handleCheckout}>
+                Checkout
+              </Button>
+            ) : (
+              <Typography variant="body1" color="primary">
+                Please log in to proceed to checkout.
+              </Typography>
+            )}
+          </Box>
+        </Box>
       )}
-    </div>
+    </Box>
   );
 };
 
 export default Cart;
+
+
